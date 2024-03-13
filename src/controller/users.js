@@ -202,14 +202,9 @@ const editUserById= async (req,res)=>{
         const user=await UserModel.findById({_id:req.params.id})
 
         if(user){
-            user.name=req.body.name
-            user.email=req.body.email
-            user.password=req.body.password
-            user.role=req.body.role
-            user.LibraryId=req.body.LibraryId
-            user.image=req.bodyimage
+            user.name=req.body.name        
             user.bio=req.body.bio
-            
+            user.image=req.body.image
 
             await user.save()
             res.status(200).send({
@@ -219,7 +214,7 @@ const editUserById= async (req,res)=>{
     }
     catch(error){
         res.status(400).send({
-            message:"Invalid book"
+            message:"Invalid user"
         })
     }
 }

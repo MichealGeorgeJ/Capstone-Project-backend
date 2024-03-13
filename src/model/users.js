@@ -1,16 +1,20 @@
 import mongoose from "./homePage.js";
+import fs from 'fs';
+
+const defaultImageBuffer = fs.readFileSync('src/lib-user.png');
+
 const userSchema=new mongoose.Schema({
         name:{
             type:String,
-            required:[true,"Name is required"]
+            
         },
         email:{
             type:String,
-            required:[true,"Email is required"]
+           
         },
         password:{
             type:String,
-            required:[true,"Password is required"]
+           
         },
         role:{
             type:String,
@@ -22,10 +26,12 @@ const userSchema=new mongoose.Schema({
             default:"LIB-0"
         
         },
-        image:{
+       
+        image: {
             type:String,
             default:"/public/lib-user.png"
-        },
+            }
+          ,
         bio:{
             type:String,
             default:"bio"
@@ -35,6 +41,7 @@ const userSchema=new mongoose.Schema({
             ref: 'Book'
         }]
 },
+
 {
     collection:'users',
     versionKey:false
