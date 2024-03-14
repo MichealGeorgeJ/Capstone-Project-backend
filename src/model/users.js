@@ -29,7 +29,7 @@ const userSchema=new mongoose.Schema({
        
         image: {
             type:String,
-            default:"/public/lib-user.png"
+            default:"https://cdn3.iconfinder.com/data/icons/user-icon-3-1/100/user_3_Artboard_1-1024.png"
             }
           ,
         bio:{
