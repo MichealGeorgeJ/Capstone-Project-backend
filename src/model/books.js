@@ -47,6 +47,11 @@ const bookSchema=new mongoose.Schema({
         default:new Date()
         
     },
+    pdfFile:{
+        type:String,
+        default:'ff'
+        
+    } 
     
 },
 {

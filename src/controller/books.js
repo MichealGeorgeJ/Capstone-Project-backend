@@ -1,8 +1,17 @@
 import mongoose from 'mongoose'
+import cloudinary from 'cloudinary';
+import multer from 'multer';
 import BooksModel from '../model/books.js'
 import dotenv from 'dotenv'
 dotenv.config()
 
+const upload = multer();
+
+cloudinary.v2.config({ 
+    cloud_name: 'des2ashy3', 
+    api_key: '345133384931324', 
+    api_secret: 'bEhNm5Fnaz2rmK7FizIDi_x8lZM' 
+});
 
 const getAllBooks=async (req,res)=>{
     try{
@@ -65,7 +74,6 @@ const getBookByIdOrIsbn = async (req, res) => {
 
 const addBook=async (req,res)=>{
     try{
-        // const book=await BooksModel.findOne({isbn:req.body.isbn})
        
             const newBook =await BooksModel.create(req.body)
             res.status(200).send({
@@ -81,6 +89,53 @@ const addBook=async (req,res)=>{
     }
 }
 
+// const addBook = async (req, res) => {
+//     try {
+//         // Upload file to Cloudinary
+//         upload.single('pdfFile')(req, res, async (err) => {
+//             if (err instanceof multer.MulterError) {
+//                 // Handle multer errors
+//                 return res.status(400).json({ error: 'Error uploading file.' });
+//             } else if (err) {
+//                 // Handle other errors
+//                 console.error(err);
+//                 return res.status(500).json({ error: 'Internal server error.' });
+//             }
+
+//             // If file uploaded successfully
+//             if (req.file) {
+//                 // Get file details
+//                 const file = req.file;
+
+               
+//                 const uploadResult = await cloudinary.v2.uploader.upload(file.path, {
+//                     resource_type: 'raw',
+//                     folder: 'pdfs'
+//                 });
+
+               
+//                 const pdfFile = uploadResult.secure_url;
+
+                
+//                 const { title, author, isbn, category, publicationDate, dob, bio } = req.body;
+
+                
+//                 const newBook = await BooksModel.create({ title, author, isbn, category, publicationDate, dob, bio, pdfFile });
+
+                
+//                 return res.status(200).json({ message: "Book added successfully", book: newBook });
+//             } else {
+//                 res.status(400).json({ error: 'No file uploaded.' });
+//             }
+//         });
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(400).send({ message: "Book already exists" });
+//     }
+// }
+
+
+
 const editBookById= async (req,res)=>{
     try{
         const book=await BooksModel.findById({_id:req.params.id})
@@ -94,6 +149,7 @@ const editBookById= async (req,res)=>{
             book.dob=req.body.dob
             book.bio=req.body.bio
             book.image=req.body.image
+            book.pdfFile=req.body.pdfFile
 
             await book.save()
             res.status(200).send({
